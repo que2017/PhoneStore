@@ -19,7 +19,7 @@ CREATE TABLE `phone_category` (
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     PRIMARY KEY (`category_id`),
     UNIQUE KEY `uqe_category_type` (`category_type`)
-) COMMENT='类目表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='类目表';
 
 insert into phone_category values (null, '铂光金', 1, now(), now());
 
@@ -39,7 +39,7 @@ CREATE TABLE `phone_info` (
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `phone_tag` varchar(512) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标签',
     PRIMARY KEY (`phone_id`)
-) COMMENT='商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品表';
 
 # 创建表: 手机规格
 DROP TABLE IF EXISTS `phone_specs`;
@@ -56,5 +56,19 @@ CREATE TABLE `phone_specs` (
     `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     PRIMARY KEY (`specs_id`)
-) COMMENT='商品规格表';
-#) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品规格表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品规格表';
+
+# 创建表: 收货地址
+DROP TABLE IF EXISTS `buyer_address`;
+# /*!40101 SET @saved_cs_client     = @@character_set_client */;
+# SET character_set_client = utf8mb4 ;
+CREATE TABLE `buyer_address` (
+    `address_id` int(11) NOT NULL AUTO_INCREMENT,
+    `buyer_name` varchar(32) COLLATE utf8mb4_general_ci NOT NULL COMMENT '买家名字',
+    `buyer_phone` varchar(32) COLLATE utf8mb4_general_ci NOT NULL COMMENT '买家电话',
+    `buyer_address` varchar(128) COLLATE utf8mb4_general_ci NOT NULL COMMENT '买家地址',
+    `area_code` varchar(32) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '地址编码',
+    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (`address_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci  COMMENT='收货地址表';
