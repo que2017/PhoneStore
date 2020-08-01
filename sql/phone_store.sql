@@ -72,3 +72,26 @@ CREATE TABLE `buyer_address` (
     `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     PRIMARY KEY (`address_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci  COMMENT='收货地址表';
+
+# 创建表: 订单表
+DROP TABLE IF EXISTS `order_master`;
+# /*!40101 SET @saved_cs_client     = @@character_set_client */;
+# SET character_set_client = utf8mb4 ;
+CREATE TABLE `order_master` (
+    `order_id` varchar(32) COLLATE utf8mb4_general_ci NOT NULL,
+    `buyer_name` varchar(32) COLLATE utf8mb4_general_ci NOT NULL COMMENT '买家名字',
+    `buyer_phone` varchar(32) COLLATE utf8mb4_general_ci NOT NULL COMMENT '买家电话',
+    `buyer_address` varchar(128) COLLATE utf8mb4_general_ci NOT NULL COMMENT '买家地址',
+    `phone_id` int(11) DEFAULT NULL COMMENT '商品编号',
+    `phone_name` varchar(32) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '商品名称',
+    `phone_quantity` int(11) DEFAULT NULL COMMENT '商品数量',
+    `phone_icon` varchar(512) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '商品小图',
+    `specs_id` int(11) DEFAULT NULL COMMENT '规格编号',
+    `specs_name` varchar(32) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '规格名称',
+    `specs_price` decimal(8,2) DEFAULT NULL COMMENT '规格单价',
+    `order_amount` decimal(8,2) NOT NULL COMMENT '订单总金额',
+    `pay_status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '支付状态，默认0未支付',
+    `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单表';
