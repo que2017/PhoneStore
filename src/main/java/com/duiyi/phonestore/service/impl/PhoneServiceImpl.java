@@ -42,7 +42,14 @@ public class PhoneServiceImpl implements PhoneService {
                 .collect(Collectors.toList());
         dataVo.setCategories(phoneCategoryVos);
         // 获取手机
-        List<PhoneInfo> phoneInfos = phoneInfoRepository.findAllByCategoryType(phoneCategories.get(0).getCategoryType());
+        List<PhoneInfoVo> phoneInfoVos = findPhoneInfoVoByCategoryType(phoneCategories.get(0).getCategoryType());
+        dataVo.setPhones(phoneInfoVos);
+        return dataVo;
+    }
+
+    @Override
+    public List<PhoneInfoVo> findPhoneInfoVoByCategoryType(Integer categoryType) {
+        List<PhoneInfo> phoneInfos = phoneInfoRepository.findAllByCategoryType(categoryType);
 
 //        List<PhoneInfoVo> phoneInfoVos = new ArrayList<>();
 //        for (PhoneInfo phoneInfo : phoneInfos) {
@@ -51,13 +58,11 @@ public class PhoneServiceImpl implements PhoneService {
 //            phoneInfoVo.setTag(PhoneUtil.createTag(phoneInfo.getPhoneTag()));
 //            phoneInfoVos.add(phoneInfoVo);
 //        }
-        List<PhoneInfoVo> phoneInfoVos = phoneInfos.stream().map(item -> {
+        return phoneInfos.stream().map(item -> {
             PhoneInfoVo phoneInfoVo = new PhoneInfoVo();
             BeanUtils.copyProperties(item, phoneInfoVo);
             phoneInfoVo.setTag(PhoneUtil.createTag(item.getPhoneTag()));
             return phoneInfoVo;
         }).collect(Collectors.toList());
-        dataVo.setPhones(phoneInfoVos);
-        return dataVo;
     }
 }
