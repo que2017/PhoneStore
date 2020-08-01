@@ -3,12 +3,15 @@ package com.duiyi.phonestore.service.impl;
 import com.duiyi.phonestore.entity.PhoneCategory;
 import com.duiyi.phonestore.entity.PhoneInfo;
 import com.duiyi.phonestore.entity.PhoneSpecs;
+import com.duiyi.phonestore.enums.ResultEnum;
+import com.duiyi.phonestore.exception.PhoneException;
 import com.duiyi.phonestore.repository.PhoneCategoryRepository;
 import com.duiyi.phonestore.repository.PhoneInfoRepository;
 import com.duiyi.phonestore.repository.PhoneSpecsRepository;
 import com.duiyi.phonestore.service.PhoneService;
 import com.duiyi.phonestore.utils.PhoneUtil;
 import com.duiyi.phonestore.viewobject.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class PhoneServiceImpl implements PhoneService {
     @Autowired
     private PhoneCategoryRepository phoneCategoryRepository;
@@ -108,5 +112,26 @@ public class PhoneServiceImpl implements PhoneService {
         specsPackageVo.setGoods(goods);
 
         return specsPackageVo;
+    }
+
+    @Override
+    public void subStock(Integer specsId, Integer quantity) {
+        PhoneSpecs phoneSpecs = phoneSpecsRepository.findById(specsId).get();
+        PhoneInfo phoneInfo = phoneInfoRepository.findById(phoneSpecs.getPhoneId()).get();
+        Integer result = phoneSpecs.getSpecsStock() - quantity;
+        if (result < 0) {
+            log.error("phone specs【减库存】：库存不足");
+            throw new PhoneException(ResultEnum.PHONE_STOCK_ERROR);
+        }
+        phoneSpecs.setSpecsStock(result);
+        phoneSpecsRepository.save(phoneSpecs);
+
+        result = phoneInfo.getPhoneStock() - quantity;
+        if (result < 0) {
+            log.error("phone info【减库存】：库存不足");
+            throw new PhoneException(ResultEnum.PHONE_STOCK_ERROR);
+        }
+        phoneInfo.setPhoneStock(result);
+        phoneInfoRepository.save(phoneInfo);
     }
 }

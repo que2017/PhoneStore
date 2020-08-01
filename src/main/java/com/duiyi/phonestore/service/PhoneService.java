@@ -10,4 +10,5 @@ public interface PhoneService {
     DataVo findDataVo();
     List<PhoneInfoVo> findPhoneInfoVoByCategoryType(Integer categoryType);
     SpecsPackageVo findSpecsByPhoneId(Integer phoneId);
+    void subStock(Integer specsId, Integer quantity);
 }
