@@ -2,6 +2,7 @@ package com.duiyi.phonestore.service.impl;
 
 import com.duiyi.phonestore.dto.OrderDto;
 import com.duiyi.phonestore.service.OrderService;
+import com.duiyi.phonestore.viewobject.OrderDetailVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,5 +25,17 @@ class OrderServiceImplTest {
 
         OrderDto result = orderService.create(orderDto);
         System.out.println(result);
+    }
+
+    @Test
+    void findOrderDetail() {
+        OrderDetailVo orderDetailVo = orderService.findOrderDetailByOrderId("abcsh3213");
+        System.out.println(orderDetailVo);
+    }
+
+    @Test
+    void pay() {
+        String pay = orderService.pay("abcsh3213");
+        System.out.println(pay);
     }
 }
